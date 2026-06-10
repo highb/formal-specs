@@ -4,5 +4,8 @@
 # TLC output
 *.out
 
+# Downloaded TLC jar
+tla2tools.jar
+
 # OS
 .DS_Store
