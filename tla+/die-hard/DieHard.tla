@@ -1,24 +1,37 @@
 ---- MODULE DieHard ----
-EXTENDS Naturals
-
-Min(a, b) == IF a < b THEN a ELSE b
+EXTENDS Integers
 
 VARIABLES small, big
 
-TypeOK == small \in 0..3 /\ big \in 0..5
+TypeOK == /\ small \in 0..3
+          /\ big   \in 0..5
 
-Init == small = 0 /\ big = 0
+Init == /\ big   = 0
+        /\ small = 0
 
-FillSmall  == small' = 3   /\ big' = big
-FillBig    == big' = 5     /\ small' = small
-EmptySmall == small' = 0   /\ big' = big
-EmptyBig   == big' = 0     /\ small' = small
+FillSmall == /\ small' = 3
+             /\ big'   = big
 
-SmallToBig == /\ big'   = Min(big + small, 5)
-              /\ small' = small - (big' - big)
+FillBig == /\ big'   = 5
+           /\ small' = small
 
-BigToSmall == /\ small' = Min(small + big, 3)
-              /\ big'   = big - (small' - small)
+EmptySmall == /\ small' = 0
+              /\ big'   = big
+
+EmptyBig == /\ big'   = 0
+            /\ small' = small
+
+SmallToBig == IF big + small =< 5
+               THEN /\ big'   = big + small
+                    /\ small' = 0
+               ELSE /\ big'   = 5
+                    /\ small' = small - (5 - big)
+
+BigToSmall == IF big + small =< 3
+               THEN /\ big'   = 0
+                    /\ small' = big + small
+               ELSE /\ big'   = small - (3 - big)
+                    /\ small' = 3
 
 Next == \/ FillSmall
         \/ FillBig
@@ -26,5 +39,8 @@ Next == \/ FillSmall
         \/ EmptyBig
         \/ SmallToBig
         \/ BigToSmall
+
+Invariant == TypeOK
+    /\ big \= 4
 
 ====
