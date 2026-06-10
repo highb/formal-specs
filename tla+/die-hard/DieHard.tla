@@ -41,6 +41,6 @@ Next == \/ FillSmall
         \/ BigToSmall
 
 Invariant == TypeOK
-    /\ big \= 4
+          /\ big # 4
 
 ====
