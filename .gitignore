@@ -1,0 +1,8 @@
+# TLA+ Toolbox state directories
+*.toolbox/*/
+
+# TLC output
+*.out
+
+# OS
+.DS_Store
